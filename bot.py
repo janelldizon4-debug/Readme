@@ -63,13 +63,18 @@ def start(message):
         return
 
     
-    if is_expired(user["expires"]):
-        bot.send_message(
-            tid,
-            "⏰ Your subscription has expired.\n"
-            "To extend subscription, please contact owner @nelhumble."
-        )
-        return
+    if user["subscription"].lower() != "premium":
+        if is_expired(user["expires"]):
+            bot.send_message(
+                tid,
+                "⏰ Your subscription has expired.\n"
+                "To extend subscription, please contact owner @nelhumble."
+            )
+            return
+        extra_text = f"⏰ Expiration: {user['expires']}\nTo extend subscription, contact @nelhumble"
+    else:
+        extra_text = ""
+    
 
     
     token = secrets.token_urlsafe(32)
@@ -84,18 +89,22 @@ def start(message):
     if user["subscription"].lower() != "infinite":
         extra_text = (
             f"⏰ Expiration: {user['expires']}\n"
-            "To extend subscription, please contact owner @nelhumble"
+            "📩 To extend your subscription, please contact the owner: @nelhumble"
         )
 
     
     text = (
-        "👋 Welcome to Cris Web!\n\n"
-        f"👤 Username: {user['name']}\n"
-        f"🆔 Telegram ID: {tid}\n"
-        f"📦 Subscription: {user['subscription']}\n"
-        f"{extra_text}\n"
-        f"🔐 Access Key: (click button below)"
-    )
+    "✨👑 WELCOME TO CRIS WEB VIP 👑✨\n"
+    "──────────────────────────────\n"
+    f"👤 **Username:** {user['name']}\n"
+    f"🆔 **Telegram ID:** {tid}\n"
+    f"💎 **Subscription:** {user['subscription']} (VIP Access)\n"
+    f"🚀 Features: Unlimited Access | Exclusive Tools\n"
+    "──────────────────────────────\n"
+    "🔐 **Access Key:**\n"
+    "Tap the button below to view it securely.\n\n"
+    "💼 Thank you for being a VIP member!"
+)
 
     
     kb = InlineKeyboardMarkup()
@@ -103,6 +112,8 @@ def start(message):
         InlineKeyboardButton("🔑 SHOW ACCESS KEY", callback_data="show_key"),
         InlineKeyboardButton("🌐 OPEN WEB TOOL", url=hidden_link)
     )
+
+
 
     bot.send_message(tid, text, reply_markup=kb)
 
