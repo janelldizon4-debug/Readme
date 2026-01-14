@@ -4,10 +4,12 @@ from datetime import datetime
 import secrets
 import time
 
-BOT_TOKEN = "8376026714:AAEND570PpBWc_ku915q7iZasL7JK8MKGco"  
-REDIRECT_URL = "https://botbot-liard.vercel.app/"
+
+BOT_TOKEN = "8389171340:AAH9WLzcrTzTUpNXIK3hmWso_mMMc_9jMB0"
+REDIRECT_URL = "https://test1-murex-six.vercel.app/"
 
 bot = telebot.TeleBot(BOT_TOKEN)
+
 
 REGISTERED_KEYS = [
     {
@@ -15,20 +17,22 @@ REGISTERED_KEYS = [
         "name": "CrisUser",
         "subscription": "1 Day",
         "revoked": False,
-        "expires": "2026-01-13",
-        "telegram_id": 7634875658
+        "expires": "2029-01-13",
+        "telegram_id": 6784382795
     },
     {
         "accessKey": "Cris-rank-2026",
-        "name": "CrisGame",
-        "subscription": "💎 Premium",
+        "name": "CrisUser2",
+        "subscription": "Infinite",
         "revoked": False,
-        "expires": "2099-01-14",
-        "telegram_id": 6784382795
+        "expires": "2026-01-20",
+        "telegram_id": 7634875658
     }
 ]
 
+
 TOKENS = {}
+
 
 def get_user(tid):
     for u in REGISTERED_KEYS:
@@ -39,11 +43,13 @@ def get_user(tid):
 def is_expired(date_str):
     return datetime.now() > datetime.strptime(date_str, "%Y-%m-%d")
 
+
 @bot.message_handler(commands=["start"])
 def start(message):
     tid = message.chat.id
     user = get_user(tid)
 
+  
     if not user:
         bot.send_message(
             tid,
@@ -51,40 +57,55 @@ def start(message):
         )
         return
 
+ 
     if user["revoked"]:
         bot.send_message(tid, "🚫 Your access has been revoked.")
         return
 
+    
     if is_expired(user["expires"]):
-        bot.send_message(tid, "⏰ Your subscription has expired.")
+        bot.send_message(
+            tid,
+            "⏰ Your subscription has expired.\n"
+            "To extend subscription, please contact owner @nelhumble."
+        )
         return
 
     
     token = secrets.token_urlsafe(32)
     TOKENS[token] = {
         "telegram_id": tid,
-        "expires": time.time() + 30
+        "expires": time.time() + 300  # 5 minutes
     }
-
     hidden_link = f"{REDIRECT_URL}?token={token}"
 
-    text = (
-    "👋 Welcome\n\n"
-    f"👤 Username: {user['name']}\n"
-    f"🆔 Telegram ID: {tid}\n"
-    f"📦 Subscription: {user['subscription']}\n"
-    f"🔐 Access Key: (click button below)\n"
-)
+    
+    extra_text = ""
+    if user["subscription"].lower() != "infinite":
+        extra_text = (
+            f"⏰ Expiration: {user['expires']}\n"
+            "To extend subscription, please contact owner @nelhumble"
+        )
 
-    kb = InlineKeyboardMarkup()
-    kb.add(
-        InlineKeyboardButton("🔑 SHOW ACCESS KEY", callback_data="show_key")
+    
+    text = (
+        "👋 Welcome to Cris Web!\n\n"
+        f"👤 Username: {user['name']}\n"
+        f"🆔 Telegram ID: {tid}\n"
+        f"📦 Subscription: {user['subscription']}\n"
+        f"{extra_text}\n"
+        f"🔐 Access Key: (click button below)"
     )
-    kb.add(
+
+    
+    kb = InlineKeyboardMarkup()
+    kb.row(
+        InlineKeyboardButton("🔑 SHOW ACCESS KEY", callback_data="show_key"),
         InlineKeyboardButton("🌐 OPEN WEB TOOL", url=hidden_link)
     )
 
     bot.send_message(tid, text, reply_markup=kb)
+
 
 @bot.callback_query_handler(func=lambda call: call.data == "show_key")
 def show_key(call):
@@ -92,7 +113,7 @@ def show_key(call):
     user = get_user(tid)
 
     if not user:
-        bot.answer_callback_query(call.id, "Not registered", show_alert=True)
+        bot.answer_callback_query(call.id, "❌ Not registered", show_alert=True)
         return
 
     bot.answer_callback_query(
@@ -100,6 +121,7 @@ def show_key(call):
         f"🔐 ACCESS KEY:\n{user['accessKey']}",
         show_alert=True
     )
+
 
 bot.remove_webhook()
 bot.infinity_polling()
