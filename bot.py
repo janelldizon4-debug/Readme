@@ -4,7 +4,7 @@ from datetime import datetime
 import secrets
 import time
 
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+BOT_TOKEN = "8376026714:AAEND570PpBWc_ku915q7iZasL7JK8MKGco"
 REDIRECT_URL = "https://botbot-liard.vercel.app/"
 bot = telebot.TeleBot(BOT_TOKEN)
 
