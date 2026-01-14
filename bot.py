@@ -17,7 +17,7 @@ REGISTERED_KEYS = [
         "name": "CrisUser",
         "subscription": "1 Day",
         "revoked": False,
-        "expires": "2029-01-13",
+        "expires": "2026-01-15",
         "telegram_id": 7634875658
     },
     {
