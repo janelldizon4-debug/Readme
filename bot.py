@@ -12,7 +12,7 @@ REGISTERED_KEYS = [
     {
         "accessKey": "Cris-rank-2025",
         "name": "CrisUser",
-        "subscription": "1 Day",
+        "subscription": "🎭 Standard",
         "revoked": False,
         "expires": "2029-01-13",
         "telegram_id": 7634875658
@@ -20,7 +20,7 @@ REGISTERED_KEYS = [
     {
         "accessKey": "Cris-rank-2026",
         "name": "CrisGame",
-        "subscription": "Premium",
+        "subscription": " 💎 Premium",
         "revoked": False,
         "expires": "2099-01-23",
         "telegram_id": 6784382795
@@ -58,7 +58,7 @@ def start(message):
 
     subscription_lower = user["subscription"].lower()
 
-    # ----------------- Premium Users -----------------
+    
     if "premium" in subscription_lower:
         text = (
             "✨👑 WELCOME TO CRIS WEB VIP 👑✨\n"
@@ -72,7 +72,7 @@ def start(message):
             "Tap the button below to view it securely.\n\n"
             "💼 Thank you for being a VIP member!"
         )
-    # ----------------- Non-Premium Users -----------------
+    
     else:
         if is_expired(user["expires"]):
             bot.send_message(
@@ -82,7 +82,7 @@ def start(message):
             return
 
         text = (
-            "⚠️ Welcome to Cris Web ⚠️\n"
+            "✨👑 Welcome to Cris Web 👑✨\n"
             "──────────────────────────────\n"
             f"👤 **Username:** {user['name']}\n"
             f"🆔 **Telegram ID:** {tid}\n"
@@ -103,7 +103,7 @@ def start(message):
 
     bot.send_message(tid, text, reply_markup=kb, parse_mode="Markdown")
 
-# Callback for SHOW ACCESS KEY
+
 @bot.callback_query_handler(func=lambda call: call.data == "show_key")
 def show_key(call):
     tid = call.message.chat.id
