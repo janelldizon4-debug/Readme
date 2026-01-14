@@ -4,7 +4,7 @@ from datetime import datetime
 import secrets
 import time
 
-BOT_TOKEN = "8389171340:AAH9WLzcrTzTUpNXIK3hmWso_mMMc_9jMB0"  
+BOT_TOKEN = "8376026714:AAEND570PpBWc_ku915q7iZasL7JK8MKGco"  
 REDIRECT_URL = "https://botbot-liard.vercel.app/"
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -16,7 +16,7 @@ REGISTERED_KEYS = [
         "subscription": "1 Day",
         "revoked": False,
         "expires": "2026-01-13",
-        "telegram_id": 6784382795
+        "telegram_id": 7634875658
     },
     {
         "accessKey": "Cris-rank-2026",
@@ -24,7 +24,7 @@ REGISTERED_KEYS = [
         "subscription": "💎 Premium",
         "revoked": False,
         "expires": "2099-01-14",
-        "telegram_id": 7634875658
+        "telegram_id": 6784382795
     }
 ]
 
